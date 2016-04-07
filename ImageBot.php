@@ -12,6 +12,9 @@ https://www.94cb.com/Telegram-Simple-Image-Bot/webhook.php
     }
 }
 */
+
+date_default_timezone_set('prc');
+
 class ImageBot extends TelegramBot {
 	public function init() {
 	parent::init();
@@ -92,6 +95,10 @@ class ImageBotChat extends TelegramBotChat {
 			case 'about':
 				$this->apiSendMessage("https://github.com/sndnvaps");
 				break;
+			case 'time':
+                                $this->apiSendMessage(strftime ("Time is %F  %H:%M:%S" ,time()));
+                                break;
+
 			case 'yi':
 				$this->apiSendMessage($this->responseTable['噫！']['text']);
 				break;
