@@ -90,7 +90,7 @@ class ImageBotChat extends TelegramBotChat {
 				$this->apiSendMessage("我是一个脱离了高级趣味的Bot. /pic or /hentai ");
 				break;
 			case 'about':
-				$this->apiSendMessage("https://github.com/lincanbin");
+				$this->apiSendMessage("https://github.com/sndnvaps");
 				break;
 			case 'yi':
 				$this->apiSendMessage($this->responseTable['噫！']['text']);
@@ -102,6 +102,8 @@ class ImageBotChat extends TelegramBotChat {
 			case 'cg':
 				$this->returnPicture($this->getRandomPicturePath("cg"));
 				break;
+			case 'who':
+				$this->apiSendMessage("My BotFather is sndnvaps who is working hard to building me body");
 			default:
 				//$this->returnPicture($this->getRandomPicturePath("images"));
 				break;
