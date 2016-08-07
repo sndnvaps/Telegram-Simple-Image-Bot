@@ -103,16 +103,16 @@ class ImageBotChat extends TelegramBotChat {
 				$this->apiSendMessage($this->responseTable['噫！']['text']);
 				break;
 			case 'pic':
-				$this->returnPicture($this->getRandomPicturePath("images"));
+				$this->returnPicture($this->getRandomPictureObject("images"));
 				break;
 			case 'hentai':
 			case 'cg':
-				$this->returnPicture($this->getRandomPicturePath("cg"));
+				$this->returnPicture($this->getRandomPictureObject("cg"));
 				break;
 			case 'who':
 				$this->apiSendMessage("My BotFather is sndnvaps who is working hard to building me body");
 			default:
-				//$this->returnPicture($this->getRandomPicturePath("images"));
+				//$this->returnPicture($this->getRandomPictureObject("images"));
 				break;
 		}
 		return;
@@ -131,7 +131,7 @@ class ImageBotChat extends TelegramBotChat {
 		foreach ($this->responseTable as $key => $value) {
 			if(strpos($text, $key) !== false){
 				if(isset($value['photo'])){
-					$this->returnPicture($this->getRandomPicturePath($value['photo']));
+					$this->returnPicture($this->getRandomPictureObject($value['photo']));
 					sleep(5);
 				}
 				if(isset($value['text'])){
@@ -144,17 +144,19 @@ class ImageBotChat extends TelegramBotChat {
 		return;
 	}
 
-	private function getRandomPicturePath($dir_name){
+	private function getRandomPictureObject($dir_name){
 		$image_list = scandir(__DIR__ . "/". $dir_name);
-		return "@" . __DIR__.  "/" .  $dir_name . "/" . $image_list[mt_rand(2,  (count($image_list)-1))];
-		
+		$image_path = realpath($dir_name . "/" . $image_list[mt_rand(2,  (count($image_list)-1))]);
+		$image_object = new CURLFile($image_path);
+		error_log($image_path . "\n\n", 3, __DIR__ . "/my-errors.log");
+		return $image_object;
 	}
 
-	private function returnPicture($path){
+	private function returnPicture($image_object){
 		$this->core->request('sendPhoto',
 			 array(
 				'chat_id' => $this->chatId,
-				'photo' => $path
+				'photo' => $image_object
 			), 
 			array(
 				'http_method' => 'POST'
